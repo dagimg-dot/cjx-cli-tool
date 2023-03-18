@@ -2,6 +2,7 @@ import argparse
 import json
 import os
 import subprocess
+import winreg
 
 
 class CJX:    
@@ -55,22 +56,22 @@ class CJX:
         self.set_sdk_path(self.args.sdk_path)
 
     def handle_doctor_command(self):
-        print('Checking if Java is installed')
+        print('Checking if Java is installed:')
+        command = "java -version"
         try:
-            if os.system('java -version') == 0:
-                print('Java is installed ✔️')
-            else:
-                print('Java is not installed ❌')
-        except:
-            print('Error checking Java version')
-        print('Checking if JavaFX is setup')
+            subprocess.check_output(command, stderr=subprocess.STDOUT, shell=True)
+            print("\033[1mJava is installed ✔️\033[0m")
+        except subprocess.CalledProcessError:
+            print("\033[1mJava is not installed ❌\033[0m")
+
+        print('Checking if JavaFX is setup:')
         try:
             with open('bin/constants.json', 'r') as f:
                 constants = json.load(f)
             if os.path.exists(constants['javafxPath']):
-                print('JavaFX is setup ✔️')
+                print("\033[1mJavaFX is setup ✔️\033[0m")
             else:
-                print('JavaFX is not setup ❌')
+                print("\033[1mJavaFX is not setup ❌\033[0m")
         except:
             print('Error checking JavaFX setup')
 
@@ -84,6 +85,9 @@ class CJX:
                 json.dump(constants, f, indent=4)
         except:
             raise Exception('Error setting JavaFX SDK path')
+        
+    def handle_functions(self):
+        pass
         
     def create_directory(self):
         try:
