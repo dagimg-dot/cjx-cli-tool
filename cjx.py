@@ -89,10 +89,6 @@ class CJX:
         except:
             raise Exception('Error setting JavaFX SDK path')
         
-    def handle_functions(self):
-        
-        pass
-        
     def create_directory(self):
         try:
             new_folder = os.path.join(self.current_dir, f'{self.project_name}')
@@ -103,13 +99,10 @@ class CJX:
                 subprocess.run(['git', 'init'])
                 self.create_gitignore()
                 self.create_readme()
-                return True
             else:
                 print('Project already exists')
-                return False
         except OSError as e:
             print(f"Error creating directory: {e}")
-            return False
         
     def create_gitignore(self):
         try:
