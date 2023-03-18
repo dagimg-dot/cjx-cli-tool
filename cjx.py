@@ -213,7 +213,7 @@ class CJX:
         try:
             print('Creating src files')
             # os.chdir(self.current_dir)
-            with open('../../src/simple/src/App.java', 'r') as f:
+            with open('../../src/simple/src/App.java.txt', 'r') as f:
                 app = f.read()
 
             with open('App.java', 'w') as f:
