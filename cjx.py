@@ -56,24 +56,27 @@ class CJX:
         self.set_sdk_path(self.args.sdk_path)
 
     def handle_doctor_command(self):
-        print('Checking if Java is installed:')
+        check1 = "Checking if Java is installed: "
         command = "java -version"
         try:
             subprocess.check_output(command, stderr=subprocess.STDOUT, shell=True)
-            print("\033[1mJava is installed ✔️\033[0m")
+            result1 = "\033[1mJava is installed ✔️\033[0m"
         except subprocess.CalledProcessError:
-            print("\033[1mJava is not installed ❌\033[0m")
+            result1 = "\033[1mJava is not installed ❌\033[0m"
+        print("{}{}".format(check1, result1))
 
-        print('Checking if JavaFX is setup:')
+        check2 = "Checking if JavaFX is setup: "
         try:
             with open('bin/constants.json', 'r') as f:
                 constants = json.load(f)
             if os.path.exists(constants['javafxPath']):
-                print("\033[1mJavaFX is setup ✔️\033[0m")
+                result2 = "\033[1mJavaFX is setup ✔️\033[0m"
             else:
-                print("\033[1mJavaFX is not setup ❌\033[0m")
+                result2 = "\033[1mJavaFX is not setup ❌\033[0m"
         except:
             print('Error checking JavaFX setup')
+        
+        print("{}{}".format(check2, result2))
 
     def set_sdk_path(self, sdk_path):
         try:
@@ -87,6 +90,7 @@ class CJX:
             raise Exception('Error setting JavaFX SDK path')
         
     def handle_functions(self):
+        
         pass
         
     def create_directory(self):
@@ -99,10 +103,13 @@ class CJX:
                 subprocess.run(['git', 'init'])
                 self.create_gitignore()
                 self.create_readme()
+                return True
             else:
                 print('Project already exists')
+                return False
         except OSError as e:
             print(f"Error creating directory: {e}")
+            return False
         
     def create_gitignore(self):
         try:
