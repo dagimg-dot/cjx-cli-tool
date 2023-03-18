@@ -120,7 +120,7 @@ class CJX:
             with open('src/simple/README.md') as f:
                 readme = f.read()
             
-            readme = readme.replace('project_name', self.project_name)
+            readme = readme.replace('project_name', f"Project Name: {self.project_name}")
 
             os.chdir(self.project_name)
 
