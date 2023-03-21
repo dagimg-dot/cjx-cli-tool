@@ -8,15 +8,15 @@ class CJX:
     def __init__(self):
             self.parser = argparse.ArgumentParser(prog='cjx')
             self.subparsers = self.parser.add_subparsers(dest='command')
+            self.doctor_parser = self.subparsers.add_parser('doctor', help='checks if the necessary pre-requisites are installed')
+            self.init_parser = self.subparsers.add_parser('init', help='initializes the CJX CLI')
+            self.path_parser = self.subparsers.add_parser('set-path', help='sets the path of the CJX CLI')
+            self.setup_parser = self.subparsers.add_parser('setup', help='Setting up environment for JavaFX development')
+            self.setup_parser.add_argument('sdk_path', help='Path of the JavaFX SDK')
             self.create_parser = self.subparsers.add_parser('create', help='Create a new JavaFX project')
             self.create_subparsers = self.create_parser.add_subparsers(dest='project_type')
             self.simple_parser = self.create_subparsers.add_parser('simple', help='Create a simple JavaFX project')
             self.simple_parser.add_argument('project_name', help='Name of the JavaFX project')
-            self.setup_parser = self.subparsers.add_parser('setup', help='Setting up environment for JavaFX development')
-            self.setup_parser.add_argument('sdk_path', help='Path of the JavaFX SDK')
-            self.doctor_parser = self.subparsers.add_parser('doctor', help='checks if the necessary pre-requisites are installed')
-            self.path_parser = self.subparsers.add_parser('set-path', help='sets the path of the CJX CLI')
-            self.init_parser = self.subparsers.add_parser('init', help='initializes the CJX CLI')
             self.args = None
             self.project_name = None
             self.cjx_path = None
@@ -54,8 +54,19 @@ class CJX:
                 print("Error: CJX CLI already initialized")
         except Exception as e:
             print(f'Error: {e}')
-        
 
+    def cjx_logo(self):
+        print('''
+         ___    _____  _    _     ___    _      _ 
+        (  _ \ (___  )( )  ( )   (  _ \ ( )    (_)
+        | ( (_)    | | \ \/ /    | ( (_)| |    | |
+        | |  _  _  | |  )  (     | |  _ | |  _ | |
+        | (_( )( )_| | / /\ \    | (_( )| |_( )| |
+        (____/  \___/ ( )  (_)   (____/ ((___/ (_)
+                      /(                (_)       
+                     (__)                         
+        ''')
+        
     def handle_command(self):
         command = self.args.command
         if command == 'init':
@@ -73,9 +84,12 @@ class CJX:
                     self.set_path()
             else:
                 print("Error: CJX CLI not initialized")
+        elif command is None:
+            self.cjx_logo()
+            self.parser.print_help()
         else:
             print(f'Error: Invalid command: {command}')
-
+                                                          
     def handle_create_command(self):
         if self.args.project_type == 'simple':
             self.project_name = self.args.project_name
@@ -102,22 +116,31 @@ class CJX:
             result1 = "\033[1mJava is not installed ❌\033[0m"
         print("{}{}".format(check1, result1))
 
-        check3 = "Checking if CJX CLI path is set: "
-        result3 = ""
+        check4 = "Checking if Visual Studio Code is installed: "
+        result4 = ""
+        command = "code -v"
+        try:
+            subprocess.check_output(command,stderr=subprocess.STDOUT, shell=True)
+            result4 = "\033[1mVisual Studio Code is installed ✔️\033[0m"
+        except subprocess.CalledProcessError:
+            result4 = "\033[1mVisual Studio Code is not installed ❌\033[0m"
+        print("{}{}".format(check4, result4))
+
+        check2 = "Checking if CJX CLI path is set: "
+        result2 = ""
         
         with open(self.cjx_path, 'r') as f:
             path = json.load(f)
 
         if path['cjxPath'] != "":
-            result3 = "\033[1mCJX CLI path is set ✔️\033[0m"
+            result2 = "\033[1mCJX CLI path is set ✔️\033[0m"
         else:
-            result3 = "\033[1mCJX CLI path is not set ❌\033[0m"
+            result2 = "\033[1mCJX CLI path is not set ❌\033[0m"
 
+        print("{}{}".format(check2, result2))
 
-        print("{}{}".format(check3, result3))
-
-        check2 = "Checking if JavaFX is setup: "
-        result2 = ""
+        check3 = "Checking if JavaFX is setup: "
+        result3 = ""
         try:
 
             with open(self.cjx_path, 'r') as f:
@@ -129,16 +152,16 @@ class CJX:
                 with open(utils_path_json, 'r') as f:
                     utils_path = json.load(f)
                 if os.path.exists(utils_path['javafxPath']):
-                    result2 = "\033[1mJavaFX is setup ✔️\033[0m"
+                    result3 = "\033[1mJavaFX is setup ✔️\033[0m"
                 else:
-                    result2 = "\033[1mJavaFX is not setup ❌\033[0m"
+                    result3 = "\033[1mJavaFX is not setup ❌\033[0m"
             except:
-                result2 = "\033[1mJavaFX is not setup, because CJX CLI path is not set ❌\033[0m"
+                result3 = "\033[1mJavaFX is not setup, because CJX CLI path is not set ❌\033[0m"
 
         except:
-            result2 = "\033[1mError checking JavaFX Setup\033[0m"
+            result3 = "\033[1mError checking JavaFX Setup\033[0m"
         
-        print("{}{}".format(check2, result2))
+        print("{}{}".format(check3, result3))
 
 
     def set_path(self):
