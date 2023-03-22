@@ -2,8 +2,8 @@ import argparse
 import json
 import os
 import subprocess
-from simple import Simple
-from jfxml import JFXML
+from app.simple import Simple
+from app.jfxml import JFXML
 
 
 class CJX:    
