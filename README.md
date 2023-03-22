@@ -24,10 +24,11 @@ This is cjx cli. It can be used to setup your JavaFX development environment usi
 
 ## CJX Installation
 
-1. Download the latest release from [here](https://github.com/dagimg-dot/cjx-v1.1-build.git)
+1. Download the latest release from [here](https://github.com/dagimg-dot/cjx-cli-tool/releases)
+    - Download the zip file in the assets section
 2. Extract the zip file
 3. Open the **cjx** folder inside the extracted folder
-4. Open a terminal (`command prompt is recommended` ) here and type `cjx init` to initialize your CJX CLI. You should see the following output: **`CJX CLI initialized successfully`**
+4. Open terminal (`command prompt is recommended` ) inside the `cjx` folder and type `cjx init` to initialize your CJX CLI. You should see the following output: **`CJX CLI initialized successfully`**
 5. Type `cjx set-path` to set the path of the CJX CLI. You should see the following output: **`CJX CLI path successfully set to <Your current directory>`**
 5. Copy the path of the cjx folder inside the extracted folder
 6. Add the path you copied to your PATH environment variable
