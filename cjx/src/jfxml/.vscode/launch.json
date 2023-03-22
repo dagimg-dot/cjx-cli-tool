@@ -1,0 +1,19 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "vmArgs": "",
+            "type": "java",
+            "name": "App",
+            "request": "launch",
+            "mainClass": ""
+        },
+        {
+            "vmArgs": "",
+            "type": "java",
+            "name": "App",
+            "request": "launch",
+            "mainClass": ""
+        }
+    ]
+}
