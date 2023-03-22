@@ -53,14 +53,14 @@ class CJX:
                 with open('utils_cjx.json', 'w') as f:
                     json.dump(utils_cjx, f, indent=4)
                 print(self.cjx_logo('welcome'))
-                print("\t\033[CJX CLI initialized successully 🎉\033[0m") 
+                print("\t\033[ J CJX CLI initialized successully 🎉\033[0m") 
                                
             else:
                 print("Error: CJX CLI already initialized")
         except Exception as e:
             print(f'Error: {e}')
 
-    def cjx_logo(self,type='main'):
+    def cjx_logo(self, type='main'):
         main = '''
          ___    _____  _    _     ___    _      _ 
         (  _ \ (___  )( )  ( )   (  _ \ ( )    (_)
@@ -111,7 +111,7 @@ class CJX:
             else:
                 print("Error: CJX CLI not initialized")
         elif command is None:
-            self.cjx_logo()
+            print(self.cjx_logo())
             self.parser.print_help()
         else:
             print(f'Error: Invalid command: {command}')  
