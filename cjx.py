@@ -1,9 +1,9 @@
 import argparse
 import json
 import os
-import subprocess
 from app.simple import Simple
 from app.jfxml import JFXML
+from app.doctor import Doctor
 
 
 class CJX:    
@@ -101,11 +101,14 @@ class CJX:
             if os.path.exists('c:/.cjx'):
                 self.cjx_path = 'c:/.cjx/utils_cjx.json'
                 if command == 'create':
-                    self.handle_create_command()
+                    if False in Doctor.handle_doctor_command(self):
+                        print("Error: Please follow the instructions carefully, or run 'cjx doctor' to see what's wrong")
+                    else:
+                        self.handle_create_command()
                 elif command == 'setup':
                     self.handle_setup_command()
                 elif command == 'doctor':
-                    self.handle_doctor_command()
+                    Doctor.print_status(self)
                 elif command == 'set-path':
                     self.set_cjx_path()
             else:
@@ -151,93 +154,6 @@ class CJX:
             print('JavaFX SDK found')
             self.set_sdk_path(self.args.sdk_path)
 
-    def handle_doctor_command(self):
-        check1 = "Checking if Java is installed: "
-        result1 = ""
-        command = "java -version"
-        try:
-            subprocess.check_output(command, stderr=subprocess.STDOUT, shell=True)
-            result1 = "\033[1mJava is installed ✔️\033[0m"
-        except subprocess.CalledProcessError:
-            result1 = "\033[1mJava is not installed ❌\033[0m"
-        print("{}{}".format(check1, result1))
-
-        check4 = "Checking if VS Code is installed: "
-        result4 = ""
-        command = "code -v"
-        try:
-            subprocess.check_output(command,stderr=subprocess.STDOUT, shell=True)
-            result4 = "\033[1mVisual Studio Code is installed ✔️\033[0m"
-        except subprocess.CalledProcessError:
-            result4 = "\033[1mVisual Studio Code is not installed ❌\033[0m"
-        print("{}{}".format(check4, result4))
-
-        check5 = "Checking if Git is installed: "
-        result5 = ""
-        command = "git --version"
-        try:
-            subprocess.check_output(command,stderr=subprocess.STDOUT, shell=True)
-            result5 = "\033[1mGit is installed ✔️\033[0m"
-        except subprocess.CalledProcessError:
-            result5 = "\033[1mGit is not installed ❌\033[0m"
-        print("{}{}".format(check5, result5))
-
-        check2 = "Checking if CJX CLI path is set: "
-        result2 = ""
-        
-        with open(self.cjx_path, 'r') as f:
-            path = json.load(f)
-
-        if path['cjxPath'] != "":
-            result2 = "\033[1mCJX CLI path is set ✔️\033[0m"
-        else:
-            result2 = "\033[1mCJX CLI path is not set ❌\033[0m"
-
-        print("{}{}".format(check2, result2))
-
-        check3 = "Checking if JavaFX is setup: "
-        result3 = ""
-        try:
-
-            with open(self.cjx_path, 'r') as f:
-                path = json.load(f)
-
-            utils_path_json = f"{path['cjxPath']}/utils/utils_path.json"
-
-            try:
-                with open(utils_path_json, 'r') as f:
-                    utils_path = json.load(f)
-                if os.path.exists(utils_path['javafxPath']):
-                    result3 = "\033[1mJavaFX is setup ✔️\033[0m"
-                else:
-                    result3 = "\033[1mJavaFX is not setup ❌\033[0m"
-            except:
-                result3 = "\033[1mJavaFX is not setup, because CJX CLI path is not set ❌\033[0m"
-
-        except:
-            result3 = "\033[1mError checking JavaFX Setup\033[0m"
-        
-        print("{}{}".format(check3, result3))
-
-    def set_cjx_path(self):
-        if os.path.exists('cjx.exe') or os.path.exists('cjx.py'):
-            current_dir = os.getcwd()   
-            try:
-                with open('c:/.cjx/utils_cjx.json', 'r') as f:
-                    path = json.load(f)
-
-                current_dir = current_dir.replace('\\', '/')
-                path['cjxPath'] = current_dir
-
-                with open('c:/.cjx/utils_cjx.json', 'w') as f:
-                    json.dump(path, f, indent=4)
-
-                print('CJX CLI path set successfully to', current_dir)
-            except:
-                print('Error setting CJX path, check your current path. It has to be in the same directory as the dependencies folder.')
-        else:
-            print('Error: CJX executable not found, check your current path. It has to be in the same directory as the cjx executable.')
-
     def set_sdk_path(self, sdk_path):
         try:
             with open(self.cjx_path, 'r') as f:
@@ -262,7 +178,12 @@ class CJX:
     def get_cjx_path(self):
         with open(self.cjx_path, 'r') as f:
             path = json.load(f)
-        return path['cjxPath']  
+        return path['cjxPath'] 
+
+    def get_sdk_path(self):
+        with open(self.cjx_path, 'r') as f:
+            path = json.load(f)
+        return path['sdkPath'] 
     
     def error_handling(self):
         print("Possible reasons:")
