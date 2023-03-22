@@ -3,6 +3,8 @@ import json
 import os
 import subprocess
 from simple import Simple
+from jfxml import JFXML
+
 
 class CJX:    
     def __init__(self):
@@ -17,9 +19,12 @@ class CJX:
             self.create_subparsers = self.create_parser.add_subparsers(dest='project_type')
             self.simple_parser = self.create_subparsers.add_parser('simple', help='Create a simple JavaFX project')
             self.simple_parser.add_argument('project_name', help='Name of the JavaFX project')
+            self.jfxml_parser = self.create_subparsers.add_parser('jfxml', help='Create a JavaFX project with FXML')
+            self.jfxml_parser.add_argument('project_name', help='Name of the JavaFX project')
             self.args = None
             self.project_name = None
             self.cjx_path = None
+            self.package_name = None
 
     def run(self):
         try:
@@ -47,15 +52,16 @@ class CJX:
 
                 with open('utils_cjx.json', 'w') as f:
                     json.dump(utils_cjx, f, indent=4)
-
-                print("CJX CLI initialized successfully 🎉")                
+                print(self.cjx_logo('welcome'))
+                print("\t\033[CJX CLI initialized successully 🎉\033[0m") 
+                               
             else:
                 print("Error: CJX CLI already initialized")
         except Exception as e:
             print(f'Error: {e}')
 
-    def cjx_logo(self):
-        print('''
+    def cjx_logo(self,type='main'):
+        main = '''
          ___    _____  _    _     ___    _      _ 
         (  _ \ (___  )( )  ( )   (  _ \ ( )    (_)
         | ( (_)    | | \ \/ /    | ( (_)| |    | |
@@ -64,7 +70,28 @@ class CJX:
         (____/  \___/ ( )  (_)   (____/ ((___/ (_)
                       /(                (_)       
                      (__)                         
-        ''')
+        '''
+        welcome = '''
+                        __                                     __          
+        __  _  __ ____ |  |   ____   ____   _____   ____     _/  |_  ____  
+        \ \/ \/ // __ \|  | _/ ___\ / __ \ /     \_/ __ \    \   __\/ __ \ 
+        \     /\  ___/_  |__  \___(  \_\ )  | |  \  ___/_    |  | (  \_\ )
+        \/\_/  \___  /____/\___  /\____/|__|_|  /\___  /    |__|  \____/ 
+                    \/          \/             \/     \/                  
+  
+                                ┃┃┃┃┃┃┃┃┃┃┃┃┃┃┃
+                                ┃┃┃┃┃┃┃┏┓┃┃┃┃┃┃
+                                ┏━━┓┃┃┃┗┛┃┃┃┓┏┓
+                                ┃┏━┛┃┃┃┏┓┃┃┃╋╋┛
+                                ┃┗━┓┃┃┃┃┃┃┃┃╋╋┓
+                                ┗━━┛┃┃┃┃┃┃┃┃┛┗┛
+                                ┃┃┃┃┃┃┃┛┃┃┃┃┃┃┃
+                                ┃┃┃┃┃┃┃━┛┃┃┃┃┃┃
+        '''
+        if type == 'welcome':
+            return welcome
+        
+        return main
         
     def handle_command(self):
         command = self.args.command
@@ -94,8 +121,28 @@ class CJX:
             self.project_name = self.args.project_name
             print(f'\n\tCreating simple JavaFX project {self.project_name}\n')
             Simple.handle_simple(self)
+        elif self.args.project_type == 'jfxml':
+            self.project_name = self.args.project_name
+            pak_name = input(f'Enter package name for project {self.project_name} (default: cjx): ')
+            self.validity_checker(pak_name)
+            print(f'\n\tCreating JavaFX project {self.project_name} with FXML support\n')
+            JFXML.handle_jfxml(self)
         else:
-            print('Error: Invalid project type')                                                   
+            print('Error: Invalid project type')     
+
+    def validity_checker(self,pak_name):
+        validinput = False
+        while not validinput:
+            if pak_name == '':
+                self.package_name = 'cjx'
+                validinput = True
+            else:
+                try:
+                    self.package_name = pak_name
+                    validinput = True
+                except ValueError:
+                    print('Error: Invalid package name')
+                    pak_name = input(f'Enter package name for project {self.project_name} (default: cjx): ')
 
     def handle_setup_command(self):
         if not os.path.exists(self.args.sdk_path):
@@ -115,7 +162,7 @@ class CJX:
             result1 = "\033[1mJava is not installed ❌\033[0m"
         print("{}{}".format(check1, result1))
 
-        check4 = "Checking if Visual Studio Code is installed: "
+        check4 = "Checking if VS Code is installed: "
         result4 = ""
         command = "code -v"
         try:
@@ -124,6 +171,16 @@ class CJX:
         except subprocess.CalledProcessError:
             result4 = "\033[1mVisual Studio Code is not installed ❌\033[0m"
         print("{}{}".format(check4, result4))
+
+        check5 = "Checking if Git is installed: "
+        result5 = ""
+        command = "git --version"
+        try:
+            subprocess.check_output(command,stderr=subprocess.STDOUT, shell=True)
+            result5 = "\033[1mGit is installed ✔️\033[0m"
+        except subprocess.CalledProcessError:
+            result5 = "\033[1mGit is not installed ❌\033[0m"
+        print("{}{}".format(check5, result5))
 
         check2 = "Checking if CJX CLI path is set: "
         result2 = ""
@@ -206,6 +263,12 @@ class CJX:
         with open(self.cjx_path, 'r') as f:
             path = json.load(f)
         return path['cjxPath']  
+    
+    def error_handling(self):
+        print("Possible reasons:")
+        print("\t1. Project already exists")
+        print("\t2. You don't have permission to create a project in this directory")
+        print("\t3. You don't have git installed")
 
 if __name__ == '__main__':
     CJX().run()
