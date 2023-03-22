@@ -41,10 +41,7 @@ class Simple():
             print(f'\n\t\033[1mProject {self.project_name} created successfully 🎇\033[0m\n')
         else:
             print(f'\t\033[1m ✖️  Error creating project {self.project_name} ✖️\033[0m\n')
-            print("Possible reasons:")
-            print("\t1. Project already exists")
-            print("\t2. You don't have permission to create a project in this directory")
-            print("\t3. You don't have git installed")
+            self.error_handling()
 
     def create_directory(self):
         try:
