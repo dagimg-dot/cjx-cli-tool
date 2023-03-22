@@ -1,6 +1,6 @@
 {
-    "javafxPath": "C:\\Java\\javafx-sdk-19.0.2.1",
-    "jarPath": "C:\\Java\\javafx-sdk-19.0.2.1/lib",
+    "javafxPath": "",
+    "jarPath": "",
     "jarFiles": [
         "javafx-swt.jar",
         "javafx.base.jar",
