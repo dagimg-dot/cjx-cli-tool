@@ -1,6 +1,7 @@
 import argparse
 import json
 import os
+import re
 from app.simple import Simple
 from app.jfxml import JFXML
 from app.doctor import Doctor
@@ -134,6 +135,12 @@ class CJX:
             print('Error: Invalid project type')     
 
     def validity_checker(self,pak_name):
+        java_keywords = ['abstract', 'assert', 'boolean', 'break', 'byte', 'case', 'catch', 'char', 'class',
+                 'const', 'continue', 'default', 'do', 'double', 'else', 'enum', 'extends', 'final',
+                 'finally', 'float', 'for', 'if', 'goto', 'implements', 'import', 'instanceof',
+                 'int', 'interface', 'long', 'native', 'new', 'package', 'private', 'protected',
+                 'public', 'return', 'short', 'static', 'strictfp', 'super', 'switch', 'synchronized',
+                 'this', 'throw', 'throws', 'transient', 'try', 'void', 'volatile', 'while']
         validinput = False
         while not validinput:
             if pak_name == '':
@@ -141,8 +148,11 @@ class CJX:
                 validinput = True
             else:
                 try:
-                    self.package_name = pak_name
-                    validinput = True
+                    if not re.match(r'^[a-z]+(\.[a-z]+)*$', pak_name) or pak_name[0].isdigit() or pak_name[-1] == '.' or pak_name in java_keywords:
+                        raise ValueError
+                    else:
+                        self.package_name = pak_name
+                        validinput = True
                 except ValueError:
                     print('Error: Invalid package name')
                     pak_name = input(f'Enter package name for project {self.project_name} (default: cjx): ')
