@@ -179,11 +179,26 @@ class CJX:
         with open(self.cjx_path, 'r') as f:
             path = json.load(f)
         return path['cjxPath'] 
+    
+    def set_cjx_path(self):
+        if os.path.exists('cjx.exe') or os.path.exists('cjx.py'):
+            current_dir = os.getcwd()   
+            try:
+                with open('c:/.cjx/utils_cjx.json', 'r') as f:
+                    path = json.load(f)
 
-    def get_sdk_path(self):
-        with open(self.cjx_path, 'r') as f:
-            path = json.load(f)
-        return path['sdkPath'] 
+                current_dir = current_dir.replace('\\', '/')
+                path['cjxPath'] = current_dir
+
+                with open('c:/.cjx/utils_cjx.json', 'w') as f:
+                    json.dump(path, f, indent=4)
+
+                print('CJX CLI path set successfully to', current_dir)
+            except:
+                print('Error setting CJX path, check your current path. It has to be in the same directory as the dependencies folder.')
+        else:
+            print('Error: CJX executable not found, check your current path. It has to be in the same directory as the cjx executable.')
+
     
     def error_handling(self):
         print("Possible reasons:")
