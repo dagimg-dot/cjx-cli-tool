@@ -1,7 +1,7 @@
 # CJX - CLI for JavaFX
 
-![GitHub release (latest by date)](https://img.shields.io/github/v/release/dagimg-dot/cjx-v1.1-build)
-![GitHub](https://img.shields.io/github/license/dagimg-dot/cjx-v1.1-build)
+![GitHub release (latest by date)](https://img.shields.io/github/v/release/dagimg-dot/cjx-cli-tool)
+![GitHub](https://img.shields.io/github/license/dagimg-dot/cjx-cli-tool)
 ![GitHub All Releases](https://img.shields.io/github/downloads/dagimg-dot/cjx-cli-tool/total)
 ![GitHub Repo stars](https://img.shields.io/github/stars/dagimg-dot/cjx-cli-tool?style=social)
 <br> <br>
