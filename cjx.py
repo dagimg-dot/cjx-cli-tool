@@ -10,6 +10,7 @@ from app.doctor import Doctor
 class CJX:    
     def __init__(self):
             self.parser = argparse.ArgumentParser(prog='cjx', description='CJX CLI', usage='%(prog)s [command] [options]')
+            self.parser.add_argument('--version','-v', action='version', version='%(prog)s 2.1')
             self.subparsers = self.parser.add_subparsers(dest='command')
             self.doctor_parser = self.subparsers.add_parser('doctor', help='checks if the necessary pre-requisites are installed')
             self.init_parser = self.subparsers.add_parser('init', help='initializes the CJX CLI')
