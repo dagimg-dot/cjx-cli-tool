@@ -1,9 +1,9 @@
 # CJX - CLI for JavaFX
 
-![GitHub release (latest by date)](https://img.shields.io/github/v/release/dagimg-dot/cjx-v1.1-build)
-![GitHub](https://img.shields.io/github/license/dagimg-dot/cjx-v1.1-build)
-![GitHub All Releases](https://img.shields.io/github/downloads/dagimg-dot/cjx-v1.1-build/total)
-![GitHub Repo stars](https://img.shields.io/github/stars/dagimg-dot/cjx-v1.1-build?style=social)
+![GitHub release (latest by date)](https://img.shields.io/github/v/release/dagimg-dot/cjx-cli-tool)
+![GitHub](https://img.shields.io/github/license/dagimg-dot/cjx-cli-tool)
+![GitHub All Releases](https://img.shields.io/github/downloads/dagimg-dot/cjx-cli-tool/total)
+![GitHub Repo stars](https://img.shields.io/github/stars/dagimg-dot/cjx-cli-tool?style=social)
 <br> <br>
 This is cjx cli. It can be used to setup your JavaFX development environment using VS Code as your IDE. 
 
@@ -33,7 +33,7 @@ This is cjx cli. It can be used to setup your JavaFX development environment usi
 5. Copy the path of the cjx folder inside the extracted folder
 6. Add the path you copied to your PATH environment variable
 7. Open a new terminal and type `cjx` to check if it is installed correctly. If it is installed correctly, you should see the following output: **`CJX CLI`** and other paragraph that explains how to use the CLI. 
-8. You can type `cjx help` to see all the commands available.
+8. You can type `cjx -h` to see all the commands available.
 9. Now you can use cjx to setup your JavaFX development environment
 
 ## Setup your JavaFX development environment
