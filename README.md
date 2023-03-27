@@ -46,19 +46,19 @@ This is cjx cli. It can be used to setup your JavaFX development environment usi
 6. If there is any error, go back and check if you have done everything correctly
 ## CJX Commands
 
-### cjx init
+### 1. cjx init
 
 This command initializes the CJX CLI. You should run this command only once inside the cjx folder.
 
-### cjx set-path
+### 2. cjx set-path
 
 This command sets the path of the CJX CLI. You should run this command only once inside the cjx folder.
 
-### cjx setup `<JavaFX SDK Directory>`
+### 3. cjx setup `<JavaFX SDK Directory>`
 
 This command sets the path of the JavaFX SDK. You should run this command only once.
 
-### cjx create
+### 4. cjx create
 
 This command creates a new JavaFX project. You can use this command to create a new JavaFX project.
 
@@ -70,7 +70,12 @@ This command creates a new JavaFX project. You can use this command to create a 
 
 `cjx create jfxml <Project Name>`
 
-### cjx doctor 
+### 5. cjx clone `<Project URL>`
+
+This command clones a JavaFX project from a git repository and set it up for offline development in your local machine and configures all the needed settings for VS Code.
+
+
+### 6. cjx doctor 
 
 This command checks if everything is setup correctly. You can use this command to check if everything is setup correctly.
 
