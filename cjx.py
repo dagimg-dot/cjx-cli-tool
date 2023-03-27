@@ -5,6 +5,7 @@ import re
 from app.simple import Simple
 from app.jfxml import JFXML
 from app.doctor import Doctor
+from app.clone import Clone
 
 
 class CJX:    
@@ -13,6 +14,8 @@ class CJX:
             self.parser.add_argument('--version','-v', action='version', version='%(prog)s 2.1')
             self.subparsers = self.parser.add_subparsers(dest='command')
             self.doctor_parser = self.subparsers.add_parser('doctor', help='checks if the necessary pre-requisites are installed')
+            self.clone_parser = self.subparsers.add_parser('clone', help='clones a javafx github repo to your local machine and setting it up for you environment')
+            self.clone_parser.add_argument('url', help='url of the repo to be cloned')
             self.init_parser = self.subparsers.add_parser('init', help='initializes the CJX CLI')
             self.path_parser = self.subparsers.add_parser('set-path', help='sets the path of the CJX CLI')
             self.setup_parser = self.subparsers.add_parser('setup', help='Setting up environment for JavaFX development')
@@ -27,6 +30,7 @@ class CJX:
             self.project_name = None
             self.cjx_path = None
             self.package_name = None
+            self.repo_name = None
 
     def run(self):
         try:
@@ -99,7 +103,7 @@ class CJX:
         command = self.args.command
         if command == 'init':
             self.init()
-        elif command in ['create', 'setup', 'doctor', 'set-path']:
+        elif command in ['create', 'setup', 'doctor', 'set-path','clone']:
             if os.path.exists('c:/.cjx'):
                 self.cjx_path = 'c:/.cjx/utils_cjx.json'
                 if command == 'create':
@@ -111,6 +115,11 @@ class CJX:
                     self.handle_setup_command()
                 elif command == 'doctor':
                     Doctor.print_status(self)
+                elif command == 'clone':
+                    if False in Doctor.handle_doctor_command(self):
+                        print("Error: Please follow the instructions carefully, or run 'cjx doctor' to see what's wrong")
+                    else:
+                        Clone.check_repo(self)
                 elif command == 'set-path':
                     self.set_cjx_path()
             else:
