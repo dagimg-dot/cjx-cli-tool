@@ -7,6 +7,8 @@
 <br> <br>
 This is cjx cli. It can be used to setup your JavaFX development environment using VS Code as your IDE. 
 
+<div align = 'center'><strong>Don't forget to star the project if you like it and find it useful ✌️</strong></div>
+
 ## Prerequisites
 
 1. [Java 11 or higher](https://www.oracle.com/java/technologies/javase-jdk11-downloads.html)
