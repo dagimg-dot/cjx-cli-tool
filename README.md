@@ -91,7 +91,7 @@ This command checks if everything is setup correctly. You can use this command t
 6. You can check the version of the CJX CLI by typing `cjx -v` after the update is complete
 
 ---
-### Caution: If you are currently using v2.2, you should update to v3.0 manually by downloading v3.0 from the releases page.
+### Caution: If you are currently using v2.2 or less, you should update to v3.0 manually by downloading v3.0 from the releases page.
 ---
 
 ## Common Errors
