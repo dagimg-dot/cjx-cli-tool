@@ -28,10 +28,14 @@ class FileDownloader:
                 return file_size
             
     def get_currentversion(self):
-        command = subprocess.run(['cjx', '--version'], stdout=subprocess.PIPE)
-        current_version = command.stdout.decode('utf-8')
-        current_version = "v" + current_version.split(' ')[1]
-        print(current_version)
+        try:
+            command = subprocess.run(['cjx', '--version'], stdout=subprocess.PIPE)
+            current_version = command.stdout.decode('utf-8')
+            current_version = "v" + current_version.split(' ')[1]
+        except:
+            print("CJX CLI not initialized yet")
+            return
+        
         return current_version
 
 
