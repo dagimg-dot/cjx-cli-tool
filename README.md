@@ -81,6 +81,19 @@ This command clones a JavaFX project from a git repository and set it up for off
 
 This command checks if everything is setup correctly. You can use this command to check if everything is setup correctly.
 
+## Updating CJX CLI
+
+1. Open the cjxupdate folder inside the zip file you downloaded
+2. Open command prompt inside the cjxupdate folder
+3. Type `cjxupdate -c` to check for updates
+4. If there is an update, you will see the following output: **`A new version is available`**
+5. Type `cjxupdate -u` to update the CJX CLI
+6. You can check the version of the CJX CLI by typing `cjx -v` after the update is complete
+
+---
+### Caution: If you are currently using v2.2, you should update to v3.0 manually by downloading v3.0 from the releases page.
+---
+
 ## Common Errors
 
 ### Error: `cjx is not recognized as an internal or external command`
