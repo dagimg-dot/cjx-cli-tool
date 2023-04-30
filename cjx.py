@@ -2,6 +2,7 @@ import argparse
 import json
 import os
 import re
+from app.env import Env
 from app.simple import Simple
 from app.jfxml import JFXML
 from app.doctor import Doctor
@@ -17,7 +18,6 @@ class CJX:
             self.clone_parser = self.subparsers.add_parser('clone', help='clones a javafx github repo to your local machine and setting it up for you environment')
             self.clone_parser.add_argument('url', help='url of the repo to be cloned')
             self.init_parser = self.subparsers.add_parser('init', help='initializes the CJX CLI')
-            self.path_parser = self.subparsers.add_parser('set-path', help='sets the path of the CJX CLI')
             self.setup_parser = self.subparsers.add_parser('setup', help='Setting up environment for JavaFX development')
             self.setup_parser.add_argument('sdk_path', help='Path of the JavaFX SDK')
             self.create_parser = self.subparsers.add_parser('create', help='Create a new JavaFX project')
@@ -45,6 +45,7 @@ class CJX:
     def init(self):
         try:
             if not os.path.exists('c:/.cjx'):
+                current_path = os.getcwd()
                 os.chdir('c:/')
                 os.mkdir('.cjx')
                 os.chdir('.cjx')
@@ -59,8 +60,12 @@ class CJX:
                 with open('utils_cjx.json', 'w') as f:
                     json.dump(utils_cjx, f, indent=4)
                 print(self.cjx_logo('welcome'))
-                print("\t\033[ J CJX CLI initialized successully 🎉\033[0m") 
-                               
+                print("\t\033[ J CJX CLI initialized successfully 🎉\033[0m") 
+                os.chdir(current_path)
+                print("\t\033[ J Setting the path of CJX CLI . . .\033[0m")
+                self.set_cjx_path()
+                print("\tAdding CJX CLI path to the environment variable . . .")
+                Env.setEnvVariable()
             else:
                 print("Error: CJX CLI already initialized")
         except Exception as e:
@@ -103,7 +108,7 @@ class CJX:
         command = self.args.command
         if command == 'init':
             self.init()
-        elif command in ['create', 'setup', 'doctor', 'set-path','clone']:
+        elif command in ['create', 'setup', 'doctor','clone']:
             if os.path.exists('c:/.cjx'):
                 self.cjx_path = 'c:/.cjx/utils_cjx.json'
                 if command == 'create':
@@ -120,8 +125,6 @@ class CJX:
                         print("Error: Please follow the instructions carefully, or run 'cjx doctor' to see what's wrong")
                     else:
                         Clone.check_repo(self)
-                elif command == 'set-path':
-                    self.set_cjx_path()
             else:
                 print("Error: CJX CLI not initialized")
         elif command is None:
@@ -194,6 +197,7 @@ class CJX:
                 print('JavaFX SDK path set successfully to', sdk_path)
         except:
             print('Error setting JavaFX SDK path')
+            return 
 
     def get_cjx_path(self):
         with open(self.cjx_path, 'r') as f:
@@ -213,11 +217,13 @@ class CJX:
                 with open('c:/.cjx/utils_cjx.json', 'w') as f:
                     json.dump(path, f, indent=4)
 
-                print('CJX CLI path set successfully to', current_dir)
+                print('\tCJX CLI path set successfully to', current_dir)
             except:
                 print('Error setting CJX path, check your current path. It has to be in the same directory as the dependencies folder.')
+                return
         else:
             print('Error: CJX executable not found, check your current path. It has to be in the same directory as the cjx executable.')
+            return
 
     
     def error_handling(self):
