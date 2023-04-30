@@ -30,13 +30,13 @@ This is cjx cli. It can be used to setup your JavaFX development environment usi
     - Download the zip file in the assets section
 2. Extract the zip file
 3. Open the **cjx** folder inside the extracted folder
-4. Open terminal (`command prompt is recommended` ) inside the `cjx` folder and type `cjx init` to initialize your CJX CLI. You should see the following output: **`CJX CLI initialized successfully`**
-5. Type `cjx set-path` to set the path of the CJX CLI. You should see the following output: **`CJX CLI path successfully set to <Your current directory>`**
-5. Copy the path of the cjx folder inside the extracted folder
-6. Add the path you copied to your PATH environment variable
-7. Open a new terminal and type `cjx` to check if it is installed correctly. If it is installed correctly, you should see the following output: **`CJX CLI`** and other paragraph that explains how to use the CLI. 
-8. You can type `cjx -h` to see all the commands available.
-9. Now you can use cjx to setup your JavaFX development environment
+4. Open terminal (`command prompt is recommended` ) inside the `cjx` folder and type `cjx init` to initialize your CJX CLI. You should see the following output: 
+    - **`CJX CLI initialized successfully`**
+    - **`CJX CLI path successfully set to <Your current directory>`**
+    - **`CJX CLI added to the environment variables successfully`**
+5. Open a new terminal and type `cjx` to check if it is installed correctly. If it is installed correctly, you should see the following output: **`CJX CLI`** and other paragraph that explains how to use the CLI. 
+6. You can type `cjx -h` to see all the commands available.
+7. Now you can use cjx to setup your JavaFX development environment
 
 ## Setup your JavaFX development environment
 
@@ -52,7 +52,7 @@ This is cjx cli. It can be used to setup your JavaFX development environment usi
 
 This command initializes the CJX CLI. You should run this command only once inside the cjx folder.
 
-### 2. cjx set-path
+### 2. <strike>cjx set-path</strike> `deprecated`
 
 This command sets the path of the CJX CLI. You should run this command only once inside the cjx folder.
 
