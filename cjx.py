@@ -12,7 +12,7 @@ from app.clone import Clone
 class CJX:    
     def __init__(self):
             self.parser = argparse.ArgumentParser(prog='cjx', description='CJX CLI', usage='%(prog)s [command] [options]')
-            self.parser.add_argument('--version','-v', action='version', version='%(prog)s 3.0')
+            self.parser.add_argument('--version','-v', action='version', version='%(prog)s 3.1')
             self.subparsers = self.parser.add_subparsers(dest='command')
             self.doctor_parser = self.subparsers.add_parser('doctor', help='checks if the necessary pre-requisites are installed')
             self.clone_parser = self.subparsers.add_parser('clone', help='clones a javafx github repo to your local machine and setting it up for you environment')
