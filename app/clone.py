@@ -68,22 +68,22 @@ class Clone:
             
 
     def config_packageName(self):
-        os.chdir("..")
-        directory_path = os.getcwd()
-        file_extension = "*.java"
-        path = ''
-        for root, dirnames, filenames in os.walk(directory_path):
-            for _ in fnmatch.filter(filenames, file_extension):
-                path = os.path.join(root,_)
-                break
+        os.chdir("src/main/java/com")
 
-        if path == '':
+        # list of directories in the current directory
+        directories = os.listdir(os.getcwd())
+        
+        if len(directories) == 0:
             print("Error: There is an error when configuring the project")
             return
         
-        self.package_name = path.split('\\')[-2] 
+        self.package_name = directories[0]
 
-        json_path = f"{self.repo_name}/.vscode/launch.json"
+        # change the current directory back to the root directory
+        os.chdir("../../../../")
+
+        json_path = ".vscode/launch.json"
+        print(json_path)
         
         try:
             with open(json_path,'r') as f:
