@@ -13,7 +13,7 @@ pefile==2023.2.7
 pyinstaller==5.10.1
 pyinstaller-hooks-contrib==2023.2
 pywin32-ctypes==0.2.0
-requests==2.29.0
+requests==2.31.0
 tqdm==4.65.0
 urllib3==1.26.15
 yarl==1.9.2
