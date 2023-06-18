@@ -56,6 +56,8 @@ class Clone:
             Simple.create_launch_json(self)
             Simple.create_settings_json(self)
 
+            Clone.config_packageName(self)
+
             print("\nJavaFX project cloned and configured successfully 🎇")
         elif project_type == "jfxml":
             JFXML.vscode_folder(self)
@@ -66,31 +68,36 @@ class Clone:
 
             print("\nJavaFX project cloned and configured successfully 🎇")
             
+    def find_main_file(directory):
+        for root, dirs, files in os.walk(directory):
+            for file in files:
+                if file.endswith(".java"):
+                    file_path = os.path.join(root, file)
+                    with open(file_path, "r", encoding="utf8") as f:
+                        content = f.read()
+                        if "public static void main(String" in content:
+                            return file_path
+        return None
 
     def config_packageName(self):
-        os.chdir("src/main/java/com")
-
-        # list of directories in the current directory
-        directories = os.listdir(os.getcwd())
-        
-        if len(directories) == 0:
+        main_file = Clone.find_main_file(os.getcwd())
+        if main_file == None:
             print("Error: There is an error when configuring the project")
             return
         
-        self.package_name = directories[0]
-
-        # change the current directory back to the root directory
-        os.chdir("../../../../")
+        try:
+            mainClass = main_file.split("src\\main\\java\\")[1].replace("\\", ".")[:-5]
+        except:
+            mainClass = main_file.split("src\\")[1].replace("\\", ".")[:-5]
 
         json_path = ".vscode/launch.json"
-        print(json_path)
-        
+
         try:
             with open(json_path,'r') as f:
                 datas = json.load(f)
 
             for data in datas['configurations']:
-                data["mainClass"] = f"com.{self.package_name}.App"
+                data["mainClass"] = mainClass
             
             with open(json_path,'w') as f:
                 json.dump(datas,f,indent=4)
